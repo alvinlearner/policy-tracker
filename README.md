@@ -1,19 +1,12 @@
-# Bank-of-Flatiron
-<img src="./snip.jpg" alt="snip">
+# Motor policy tracker
+
 
 ## Description
 
-Bank-of-Flatiron project is a React application that displays a list of your recent bank transactions, one can post their recent transaction and filter out specific transactions using a search bar among other functionalities.
+
 
 ## Installation
 
-
-- `git clone git@github.com:alvinkenyagah/Bank-of-Flatiron.git`
-- `cd Bank-of-Flatiron`
-- `npm install -g json-server`
-- `npm install`
-- `json-server -w db.json -p 8001`
-- `npm run dev`
 
 ## MIT License
 
