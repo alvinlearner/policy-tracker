@@ -87,34 +87,48 @@ export default function DisplayTransaction() {
 
   return (
     <div>
-      <style>
-        {`
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+<style>
+  {`
+  .table-container {
+    overflow-x: auto;
+  }
 
-thead {
-  background-color: #89b1d6;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background-color: #89b1d6;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #ddd;
+  }
+
+  @media only screen and (max-width: 600px) {
+    /* Styles specific to mobile view */
+    th, td {
+      white-space: nowrap; /* Prevent text wrapping */
+    }
+  }
+  `}
+</style>
 
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tr:hover {
-  background-color: #ddd;
-}
-        `}
-      </style>
       <TransactionFilter transactions={transactions} onFilter={handleFilter} />
+
+  <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -152,6 +166,7 @@ tr:hover {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
