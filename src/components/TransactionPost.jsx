@@ -10,7 +10,7 @@ function AddTransaction() {
   const [nextId, setNextId] = useState(1);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/transactions`)
+    fetch(`https://policy-tracker-data.vercel.app/transactions`)
       .then((res) => res.json())
       .then((data) => {
         if (data.length > 0) {
@@ -36,7 +36,7 @@ function AddTransaction() {
       expire: expire,
     };
 
-    fetch(`http://localhost:3000/transactions`, {
+    fetch(`https://policy-tracker-data.vercel.app/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
