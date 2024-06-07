@@ -128,7 +128,7 @@ export default function DisplayTransaction() {
 
       <TransactionFilter transactions={transactions} onFilter={handleFilter} />
 
-  <div class="table-container">
+  <div className="table-container">
       <table>
         <thead>
           <tr>
