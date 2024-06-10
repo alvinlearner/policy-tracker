@@ -9,3 +9,6 @@ export default function TransactionDelete(props) {
     <button onClick={handleClick}>Delete</button>
   );
 }
+
+
+

@@ -16,12 +16,13 @@ export default function DisplayTransaction() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const transactionsWithDaysLeft = data.map((transaction) => ({
+        const transactionsWithDays = data.map((transaction) => ({
           ...transaction,
           daysLeft: calculateDaysLeft(transaction.start, transaction.expire),
+          daysPassed: calculateDaysPassed(transaction.expire),
         }));
-        setTransactions(transactionsWithDaysLeft);
-        setFilteredTransactions(transactionsWithDaysLeft);
+        setTransactions(transactionsWithDays);
+        setFilteredTransactions(transactionsWithDays);
       })
       .catch((error) => {
         console.error(error);
@@ -40,6 +41,16 @@ export default function DisplayTransaction() {
     return remainingDays >= 0 ? remainingDays : 0;
   };
 
+  const calculateDaysPassed = (expire) => {
+    const currentDate = new Date();
+    const expireDate = new Date(expire);
+
+    expireDate.setHours(23, 59, 59, 999);
+
+    const passedDays = Math.floor((currentDate - expireDate) / (1000 * 60 * 60 * 24));
+    return passedDays > 0 ? passedDays : "-";
+  };
+
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -48,8 +59,18 @@ export default function DisplayTransaction() {
     setSortConfig({ key, direction });
 
     const sortedData = [...filteredTransactions].sort((a, b) => {
-      const aValue = key === "daysLeft" ? calculateDaysLeft(a.start, a.expire) : a[key];
-      const bValue = key === "daysLeft" ? calculateDaysLeft(b.start, b.expire) : b[key];
+      let aValue, bValue;
+
+      if (key === "daysLeft") {
+        aValue = calculateDaysLeft(a.start, a.expire);
+        bValue = calculateDaysLeft(b.start, b.expire);
+      } else if (key === "daysPassed") {
+        aValue = a.daysPassed === "-" ? -1 : a.daysPassed;
+        bValue = b.daysPassed === "-" ? -1 : b.daysPassed;
+      } else {
+        aValue = a[key];
+        bValue = b[key];
+      }
 
       if (aValue < bValue) {
         return direction === "asc" ? -1 : 1;
@@ -100,6 +121,7 @@ export default function DisplayTransaction() {
 
   thead {
     background-color: #89b1d6;
+    cursor:pointer;
   }
 
   th, td {
@@ -107,7 +129,7 @@ export default function DisplayTransaction() {
     padding: 8px;
     text-align: left;
   }
-
+ 
   tr:nth-child(even) {
     background-color: #f9f9f9;
   }
@@ -140,7 +162,7 @@ export default function DisplayTransaction() {
             <th onClick={() => handleSort("start")}>Starting date</th>
             <th onClick={() => handleSort("expire")}>Expiry date</th>
             <th onClick={() => handleSort("daysLeft")}>Days left</th>
-            <th></th>
+            <th onClick={() => handleSort("daysPassed")}>Days passed</th>
           </tr>
         </thead>
         <tbody>
@@ -156,12 +178,13 @@ export default function DisplayTransaction() {
               <td style={{ color: calculateDaysLeft(transaction.start, transaction.expire) > 0 ? 'black' : 'red' }}>
                 {calculateDaysLeft(transaction.start, transaction.expire)} days left
               </td>
-              <td>
+              <td>{transaction.daysPassed}</td>
+              {/* <td>
                 <TransactionDelete
                   id={transaction.id}
                   onDelete={() => handleDelete(transaction.id)}
                 />
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
@@ -170,3 +193,11 @@ export default function DisplayTransaction() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
