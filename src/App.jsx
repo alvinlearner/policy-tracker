@@ -16,7 +16,7 @@ function App() {
       }
     </style>
       <h1>Motor Policy Tracker</h1>
-      <AddTransaction />
+      {/* <AddTransaction /> */}
       <DisplayTransaction />
     </>
   );

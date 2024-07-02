@@ -144,11 +144,13 @@ export default function DisplayTransaction() {
       white-space: nowrap; /* Prevent text wrapping */
     }
   }
+
+  
   `}
 </style>
 
 
-      <TransactionFilter transactions={transactions} onFilter={handleFilter} />
+      <TransactionFilter transactions={transactions} onFilter={handleFilter}/>
 
   <div className="table-container">
       <table>
