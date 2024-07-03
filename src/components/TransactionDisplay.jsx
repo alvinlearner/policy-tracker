@@ -48,7 +48,7 @@ export default function DisplayTransaction() {
     expireDate.setHours(23, 59, 59, 999);
 
     const passedDays = Math.floor((currentDate - expireDate) / (1000 * 60 * 60 * 24));
-    return passedDays > 0 ? passedDays : "-";
+    return passedDays >= 0 ? passedDays : "-";
   };
 
   const handleSort = (key) => {
