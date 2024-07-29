@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import TransactionFilter from "./TransactionFilter";
 import TransactionDelete from "./TransactionDelete";
 
+
+
+
 export default function DisplayTransaction() {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -88,6 +91,23 @@ export default function DisplayTransaction() {
     setFilteredTransactions(filteredTransactions);
   };
 
+
+
+
+
+  const viewPDF = () => {
+    // if (transactions.file) {
+    //   window.open(transactions.file, '_blank');
+    // } else {
+    //   console.error(transactions.file);
+    // }
+
+    alert(transactions.file)
+  };
+
+
+
+
   const handleDelete = (id) => {
     const url = `https://policy-tracker-data.vercel.app/transactions/${id}`;
     fetch(url, {
@@ -134,9 +154,15 @@ export default function DisplayTransaction() {
     background-color: #f9f9f9;
   }
 
+
+
+
   tr:hover {
     background-color: #ddd;
+    cursor:pointer;
   }
+
+
 
   @media only screen and (max-width: 600px) {
     /* Styles specific to mobile view */
@@ -155,7 +181,7 @@ export default function DisplayTransaction() {
   <div className="table-container">
       <table>
         <thead>
-          <tr>
+        <tr>
           <th onClick={() => handleSort("id")}>ID</th>
             <th onClick={() => handleSort("client")}>Policy holder</th>
             <th onClick={() => handleSort("policyno")}>Policy no</th>
@@ -165,11 +191,14 @@ export default function DisplayTransaction() {
             <th onClick={() => handleSort("expire")}>Expiry date</th>
             <th onClick={() => handleSort("daysLeft")}>Days left</th>
             <th onClick={() => handleSort("daysPassed")}>Days passed</th>
-          </tr>
+
+        </tr>
+
+          
         </thead>
         <tbody>
           {filteredTransactions.map((transaction) => (
-            <tr key={transaction.id}>
+            <tr onDoubleClick={()=>viewPDF()} key={transaction.id}>
               <td>{transaction.id}</td>
               <td>{transaction.client}</td>
               <td>{transaction.policyno}</td>
@@ -181,6 +210,8 @@ export default function DisplayTransaction() {
                 {calculateDaysLeft(transaction.start, transaction.expire)} days left
               </td>
               <td>{transaction.daysPassed}</td>
+
+              
               {/* <td>
                 <TransactionDelete
                   id={transaction.id}
