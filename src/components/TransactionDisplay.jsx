@@ -11,7 +11,7 @@ export default function DisplayTransaction() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   useEffect(() => {
-    const url = `https://policy-tracker-data.vercel.app/transactions`;
+    const url = `http://localhost:3000/api/transactions/`;
 
     fetch(url, {
       method: "GET",
@@ -107,16 +107,15 @@ export default function DisplayTransaction() {
 
 
 
-
-  const handleDelete = (id) => {
-    const url = `https://policy-tracker-data.vercel.app/transactions/${id}`;
+  const handleDelete = (_id) => {
+    const url = `http://localhost:3000/api/transactions/${_id}`;
     fetch(url, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
     })
       .then(() => {
         const newTransactions = transactions.filter(
-          (transaction) => transaction.id !== id
+          (transaction) => transaction._id !== _id
         );
         setTransactions(newTransactions);
         setFilteredTransactions(newTransactions);
@@ -125,6 +124,7 @@ export default function DisplayTransaction() {
         console.error(error);
       });
   };
+  
 
   return (
     <div>
@@ -191,6 +191,7 @@ export default function DisplayTransaction() {
             <th onClick={() => handleSort("expire")}>Expiry date</th>
             <th onClick={() => handleSort("daysLeft")}>Days left</th>
             <th onClick={() => handleSort("daysPassed")}>Days passed</th>
+            <th>Action</th>
 
         </tr>
 
@@ -205,19 +206,25 @@ export default function DisplayTransaction() {
               <td>{transaction.registration}</td>
               <td>{transaction.classification}</td>
               <td>{transaction.start}</td>
-              <td>{transaction.expire}</td>
-              <td style={{ color: calculateDaysLeft(transaction.start, transaction.expire) > 0 ? 'black' : 'red' }}>
-                {calculateDaysLeft(transaction.start, transaction.expire)} days left
+              <td>{transaction.expire}</td>              
+              <td>
+                <em style={{ color: calculateDaysLeft(transaction.start, transaction.expire) > 0 ? 'black' : 'red' }}>{calculateDaysLeft(transaction.start, transaction.expire)} days left </em>  
               </td>
+
+
+
               <td>{transaction.daysPassed}</td>
 
+
+
+
               
-              {/* <td>
+              <td>
                 <TransactionDelete
                   id={transaction.id}
                   onDelete={() => handleDelete(transaction.id)}
                 />
-              </td> */}
+              </td>
             </tr>
           ))}
         </tbody>
