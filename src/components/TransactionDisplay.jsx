@@ -11,7 +11,7 @@ export default function DisplayTransaction() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   useEffect(() => {
-    const url = `http://localhost:3000/api/transactions/`;
+    const url = `https://policy-tracker-data.vercel.app/transactions/`;
 
     fetch(url, {
       method: "GET",
@@ -108,7 +108,7 @@ export default function DisplayTransaction() {
 
 
   const handleDelete = (_id) => {
-    const url = `http://localhost:3000/api/transactions/${_id}`;
+    const url = `https://policy-tracker-data.vercel.app/transactions/${id}`;
     fetch(url, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
